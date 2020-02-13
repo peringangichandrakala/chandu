@@ -1,0 +1,90 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-emp
+  labels:
+    run: my-emp
+spec:
+   ports:
+   - port: 80
+     targetPort: 8888
+     protocol: TCP
+   type: NodePort
+   selector:
+     run: my-emp
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: my-emp
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: my-emp
+    spec:
+      containers:
+      - name: my-emp
+        image: kavisuresh/employee
+        ports:
+        - containerPort: 8888      
+---
+apiVersion: v1
+kind: Service
+metadata:
+   name: mongo
+   labels:
+     run: mongo
+spec:
+   ports:
+   - port: 27017
+     targetPort: 27017
+     protocol: TCP
+   selector:
+     run: mongo
+---     
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+   name: mongo
+spec:
+   template:
+     metadata:
+       labels:
+         run: mongo
+     spec:
+       containers:
+       - name: mongo
+         image: mongo
+         ports:
+         - containerPort: 27017
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
